@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# House Marketplace
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A mobile-first app that allows you to find and list houses for sale or for rent. This is a React and Firebase v9 project from the [React Front to Back 2022](https://www.udemy.com/course/react-front-to-back-2022) course.
 
-## Available Scripts
+[Visit the site](https://house-marketplace-six.vercel.app)
 
-In the project directory, you can run:
+![Preview](/public/preview.png)
 
-### `npm start`
+## Features
+- Explore properties for rent or sale
+- Browse properties with offers
+- Contact property owner
+- Sign up using email/password or Google OAuth
+- List your own properties with photo upload
+- Edit and delete your listings
+- View property location with OpenStreetMap
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech
+- React and React Router v6
+- Firebase v9 (authentication, queries, storage)
+- Deployed on [Vercel](https://vercel.com/)
+- Toastify
+- [Leaflet](https://leafletjs.com/) maps
+- [Swiper](https://swiperjs.com/) slides
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Usage
 
-### `npm test`
+If you want to run this locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`git clone https://github.com/alexboyling/house-marketplace`
 
-### `npm run build`
+Navigate to the downloaded directory then
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`npm start`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This will run the app in development mode. You can view it by visiting [http://localhost:3000](http://localhost:3000) in your browser.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Using Geolocation
 
-### `npm run eject`
+The geolocation feature requires the use of the Google Geolocation API. You can either disable the feature or add your own API key.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### Disable geolocation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- In *CreateListing.jsx* set *geolocationEnabled* to "false"
+- This will add a field for latitude and longitude coordinates when creating a listing 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Add your own API key
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Set up a GCP project and enable the [Geolocation API](https://console.cloud.google.com/apis/library/geolocation.googleapis.com?walkthrough_id=assistant_generic_index&project=dev1-338613)
+- Generate an API key for the project
+- Create a .env file in the cloned repo
+- Add an entry for the key
+`REACT_APP_GEOCODE_API_KEY="your key here"`
