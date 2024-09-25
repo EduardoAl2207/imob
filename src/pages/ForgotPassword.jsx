@@ -14,17 +14,17 @@ function ForgotPassword() {
     try {
       const auth = getAuth()
       await sendPasswordResetEmail(auth, email)
-      toast.success('Email was sent')
+      toast.success('O e-mail foi enviado')
     } catch (error) {
       console.log(error)
-      toast.error('Could not send reset email')
+      toast.error('Não foi possível enviar o e-mail de redefinição')
     }
   }
 
   return (
     <div className='pageContainer'>
     <header>
-      <p className="pageHeader">Forgot Password</p>
+      <p className="pageHeader">Esqueceu sua senha</p>
     </header>
 
     <main>
@@ -37,10 +37,10 @@ function ForgotPassword() {
          value={email} 
          onChange={onChange} />
          <Link className='forgotPasswordLink' to='/sign-in'>
-           Sign In
+         Entrar
          </Link>
          <div className="signInBar">
-           <div className="signInText">Send Reset Link</div>
+           <div className="signInText">Enviar link de redefinição</div>
            <button className="signInButton">
              <ArrowRightIcon fill='#ffffff' width='34px' height='34px' />
            </button>

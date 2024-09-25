@@ -58,7 +58,7 @@ function CreateListing() {
 
     if(discountedPrice >= regularPrice) {
       setLoading(false)
-      toast.error('Discounted price needs to be less than regular price')
+      toast.error('O preço com desconto precisa ser menor que o preço normal')
       return
     }
 
@@ -81,9 +81,9 @@ function CreateListing() {
       geolocation.lng = data.results[0]?.geometry.location.lng ?? 0
       location = data.status === 'ZERO_RESULTS' ? undefined : data.results[0]?.formatted_address
 
-      if(location === undefined || location.includes('undefined')){
+      if(location === undefined || location.includes('indefinido')){
         setLoading(false)
-        toast.error('Please enter a correct address')
+        toast.error('Por favor, insira um endereço correto')
         return
       }
     } else {
@@ -110,10 +110,10 @@ function CreateListing() {
             console.log('Upload is ' + progress + '% done')
             switch (snapshot.state) {
               case 'paused':
-                console.log('Upload is paused')
+                console.log('O upload está pausado')
                 break
               case 'running':
-                console.log('Upload is running')
+                console.log('O upload está em andamento')
                 break
               default:
                 break
@@ -137,7 +137,7 @@ function CreateListing() {
       [...images].map((image) => storeImage(image))
     ).catch(() => {
       setLoading(false)
-      toast.error('Images not uploaded')
+      toast.error('Imagens não carregadas')
       return
     })
 
@@ -155,7 +155,7 @@ function CreateListing() {
 
     const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
     setLoading(false)
-    toast.success('Listing saved')
+    toast.success('Listagem salva')
     navigate(`/category/${formDataCopy.type}/${docRef.id}`)
   }
 
@@ -193,12 +193,12 @@ function CreateListing() {
   return (
     <div className='profile'>
       <header>
-        <p className='pageHeader'>Create a Listing</p>
+        <p className='pageHeader'>Criar uma listagem</p>
       </header>
 
       <main>
         <form onSubmit={onSubmit}>
-          <label className='formLabel'>Sell / Rent</label>
+          <label className='formLabel'>Vender / Rent</label>
           <div className='formButtons'>
             <button
               type='button'
@@ -207,7 +207,7 @@ function CreateListing() {
               value='sale'
               onClick={onMutate}
             >
-              Sell
+              Vender
             </button>
             <button
               type='button'
@@ -216,11 +216,11 @@ function CreateListing() {
               value='rent'
               onClick={onMutate}
             >
-              Rent
+              Alugar
             </button>
           </div>
 
-          <label className='formLabel'>Name</label>
+          <label className='formLabel'>Nome</label>
           <input
             className='formInputName'
             type='text'
@@ -234,7 +234,7 @@ function CreateListing() {
 
           <div className='formRooms flex'>
             <div>
-              <label className='formLabel'>Bedrooms</label>
+              <label className='formLabel'>Quartos</label>
               <input
                 className='formInputSmall'
                 type='number'
@@ -247,7 +247,7 @@ function CreateListing() {
               />
             </div>
             <div>
-              <label className='formLabel'>Bathrooms</label>
+              <label className='formLabel'>Banheiros</label>
               <input
                 className='formInputSmall'
                 type='number'
@@ -261,7 +261,7 @@ function CreateListing() {
             </div>
           </div>
 
-          <label className='formLabel'>Parking spot</label>
+          <label className='formLabel'>Vaga de estacionamento</label>
           <div className='formButtons'>
             <button
               className={parking ? 'formButtonActive' : 'formButton'}
@@ -272,7 +272,7 @@ function CreateListing() {
               min='1'
               max='50'
             >
-              Yes
+              Sim
             </button>
             <button
               className={
@@ -283,11 +283,11 @@ function CreateListing() {
               value={false}
               onClick={onMutate}
             >
-              No
+              Não
             </button>
           </div>
 
-          <label className='formLabel'>Furnished</label>
+          <label className='formLabel'>Mobiliado</label>
           <div className='formButtons'>
             <button
               className={furnished ? 'formButtonActive' : 'formButton'}
@@ -296,7 +296,7 @@ function CreateListing() {
               value={true}
               onClick={onMutate}
             >
-              Yes
+              Sim
             </button>
             <button
               className={
@@ -309,11 +309,11 @@ function CreateListing() {
               value={false}
               onClick={onMutate}
             >
-              No
+              Não
             </button>
           </div>
 
-          <label className='formLabel'>Address</label>
+          <label className='formLabel'>Endereço</label>
           <textarea
             className='formInputAddress'
             type='text'
@@ -350,7 +350,7 @@ function CreateListing() {
             </div>
           )}
 
-          <label className='formLabel'>Offer</label>
+          <label className='formLabel'>Oferecer</label>
           <div className='formButtons'>
             <button
               className={offer ? 'formButtonActive' : 'formButton'}
@@ -359,7 +359,7 @@ function CreateListing() {
               value={true}
               onClick={onMutate}
             >
-              Yes
+              Sim
             </button>
             <button
               className={
@@ -370,11 +370,11 @@ function CreateListing() {
               value={false}
               onClick={onMutate}
             >
-              No
+              Não
             </button>
           </div>
 
-          <label className='formLabel'>Regular Price</label>
+          <label className='formLabel'>Preço normal</label>
           <div className='formPriceDiv'>
             <input
               className='formInputSmall'
@@ -386,12 +386,12 @@ function CreateListing() {
               max='750000000'
               required
             />
-            {type === 'rent' && <p className='formPriceText'>$ / Month</p>}
+            {type === 'rent' && <p className='formPriceText'>R$ / Mês</p>}
           </div>
 
           {offer && (
             <>
-              <label className='formLabel'>Discounted Price</label>
+              <label className='formLabel'>Preço com desconto</label>
               <input
                 className='formInputSmall'
                 type='number'
@@ -405,9 +405,9 @@ function CreateListing() {
             </>
           )}
 
-          <label className='formLabel'>Images</label>
+          <label className='formLabel'>Imagens</label>
           <p className='imagesInfo'>
-            The first image will be the cover (max 6).
+          A primeira imagem será a capa (max 6).
           </p>
           <input
             className='formInputFile'
@@ -420,7 +420,7 @@ function CreateListing() {
             required
           />
           <button type='submit' className='primaryButton createListingButton'>
-            Create Listing
+          Criar Listagem
           </button>
         </form>
       </main>

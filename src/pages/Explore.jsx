@@ -8,13 +8,13 @@ function Explore() {
   return (
     <div className='explore'>
       <header>
-        <p className="pageHeader">Explore</p>
+        <p className="pageHeader">Explorar</p>
       </header>
 
       <main>
         <Slider />
 
-        <p className="exploreCategoryHeading">Categories</p>
+        <p className="exploreCategoryHeading">Categorias</p>
         <div className="exploreCategories">
           <Link to='/category/rent'>
             <img
@@ -22,7 +22,7 @@ function Explore() {
               alt="rent" 
               className='exploreCategoryImg' 
             />
-            <p className="exploreCategoryName">Places for rent</p>
+            <p className="exploreCategoryName">Lugares para alugar</p>
           </Link>
           <Link to='/category/sale'>
             <img
@@ -30,7 +30,7 @@ function Explore() {
               alt="sell" 
               className='exploreCategoryImg' 
             />
-            <p className="exploreCategoryName">Places for sale</p>
+            <p className="exploreCategoryName">Lugares para venda</p>
           </Link>
         </div>
       </main>

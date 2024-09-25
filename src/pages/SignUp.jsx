@@ -53,7 +53,7 @@ function SignUp() {
       navigate('/')
     } catch (error) {
       console.log(error)
-      toast.error('Something went wrong with registration')
+      toast.error('Algo deu errado com o registro')
     }
   }
 
@@ -61,20 +61,20 @@ function SignUp() {
     <>
       <div className="pageContainer">
         <header>
-          <p className="pageHeader">Welcome Back!</p>
+          <p className="pageHeader">Bem vindo de volta!</p>
         </header>
         
         <form onSubmit={onSubmit}>
-          <input type="text" className="nameInput" placeholder="Name" id="name" value={name} onChange={onChange} />
+          <input type="text" className="nameInput" placeholder="Nome" id="name" value={name} onChange={onChange} />
           <input type="email" className="emailInput" placeholder="Email" id="email" value={email} onChange={onChange} />
           <div className="passwordInputDiv">
-            <input type={showPassword ? 'text' : 'password'} className='passwordInput' placeholder='Password' id='password' value={password} onChange={onChange} />
+            <input type={showPassword ? 'text' : 'password'} className='passwordInput' placeholder='Senha' id='password' value={password} onChange={onChange} />
             <img src={visibilityIcon} alt="show password" className="showPassword" onClick={() => setShowPassword((prevState) => !prevState)} />
           </div>
-          <Link to='/forgot-password' className='forgotPasswordLink'>Forgot Password</Link>
+          <Link to='/forgot-password' className='forgotPasswordLink'>Esqueceu sua senha</Link>
 
           <div className="signUpBar">
-            <p className="signUpText">Sign Up</p>
+            <p className="signUpText">Inscrever-se</p>
             <button className="signUpButton">
               <ArrowRightIcon fill='#ffffff' width='34px' height='34px' />
             </button>
@@ -84,7 +84,7 @@ function SignUp() {
         <OAuth />
 
         <Link to='/sign-in' className='registerLink'>
-          Sign In Instead
+        Entrar
         </Link>
       </div>
     </>

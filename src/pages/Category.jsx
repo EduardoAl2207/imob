@@ -95,7 +95,7 @@ function Category() {
     <div className='category'>
       <header>
         <p className="pageHeader">
-          {params.categoryName === 'rent' ? 'Places for rent' : 'Places for sale'}
+          {params.categoryName === 'rent' ? 'Lugares para alugar' : 'Lugares para venda'}
         </p>
       </header>
 
@@ -114,11 +114,11 @@ function Category() {
         <br />
         <br />
         {lastFetchedListing && (
-          <p className="loadMore" onClick={onFetchMoreListings}>Load More</p>
+          <p className="loadMore" onClick={onFetchMoreListings}>Mais</p>
         )}
         </>
       ) : (
-        <p>No listings for {params.categoryName}</p>
+        <p>Nenhuma listagem para {params.categoryName}</p>
       )}
     </div>
   )

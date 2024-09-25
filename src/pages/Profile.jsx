@@ -91,20 +91,20 @@ function Profile() {
 
   return <div className='profile'>
     <header className="profileHeader">
-      <p className="pageHeader">My Profile</p>
+      <p className="pageHeader">Meu Perfil</p>
       <button type='button' className="logOut" onClick={onLogout}>
-        Logout
+      Sair
       </button>
     </header>
 
     <main>
       <div className="profileDetailsHeader">
-        <p className="profileDetailsText">Personal Details</p>
+        <p className="profileDetailsText">Dados pessoais</p>
         <p className="changePersonalDetails" onClick={() => {
           changeDetails && onSubmit()
           setChangeDetails((prevState) => !prevState)
         }}>
-          {changeDetails ? 'done' : 'change'}
+          {changeDetails ? 'done' : 'mudar'}
         </p>
       </div>
 
@@ -131,13 +131,13 @@ function Profile() {
 
       <Link to='/create-listing' className='createListing'>
         <img src={homeIcon} alt="home" />
-        <p>Sell or rent your home</p>
+        <p>Vender ou alugar sua casa</p>
         <img src={arrowRight} alt="arrow right" />
       </Link>
 
       {!loading && listings?.length > 0 && (
         <>
-          <p className="listingText">Your Listings</p>
+          <p className="listingText">Suas Listagens</p>
           <ul className="listingsList">
             {listings.map((listing) => (
               <ListingItem 
