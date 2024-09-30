@@ -12,9 +12,9 @@ Para instalar o projeto, siga os passos abaixo:
 
 1. **Clone o repositório**:
 
-git clone https://github.com/EduardoAl2207/imobil.git
+https://github.com/EduardoAl2207/imob
 
-cd imobil
+cd imob
 
 npm install
 
