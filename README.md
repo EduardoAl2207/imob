@@ -4,7 +4,8 @@ Nome do Projeto: Imobill
 ## Descrição
 Este app foi feito pensando em César, visando preencher uma deficiência no mercado imobiliário, disponibilizando todas as áreas de imóveis.
 
-<img width="1266" alt="preview (1)" src="https://github.com/user-attachments/assets/4fc4fe3b-f0b1-48c3-8e26-805de7c0ff93">
+<img width="1266" alt="preview (1)" src="https://github.com/user-attachments/assets/7838ff37-0845-43e0-86c7-9750caec82b7">
+
 
 ## Instalação
 Para instalar o projeto, siga os passos abaixo:
