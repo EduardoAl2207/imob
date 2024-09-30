@@ -79,13 +79,13 @@ function CreateListing() {
 
       geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
       geolocation.lng = data.results[0]?.geometry.location.lng ?? 0
-      location = data.status === 'ZERO_RESULTS' ? undefined : data.results[0]?.formatted_address
+      location = data.status === 'ZERO_RESULTS' ? address : data.results[0]?.formatted_address;
 
-      if(location === undefined || location.includes('indefinido')){
+      /* if(location === undefined || location.includes('undefined')){
         setLoading(false)
-        toast.error('Por favor, insira um endereço correto')
+        toast.error('Please enter a correct address')
         return
-      }
+      } */
     } else {
       geolocation.lat = latitude
       geolocation.lng = longitude
