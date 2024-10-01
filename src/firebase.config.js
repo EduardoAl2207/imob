@@ -1,8 +1,17 @@
+<<<<<<< HEAD
 // src/config/firebase.config.js
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 // Configuração do Firebase
+=======
+// firebase.config.js
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+
+// Sua configuração do Firebase
+>>>>>>> c107fdf854ac4ea7176a42939b2ca3112aca9919
 const firebaseConfig = {
   apiKey: "AIzaSyASuvhmvOEi9jENqjm8pjxhEVG0HeMKjqc",
   authDomain: "apiimob.firebaseapp.com",
@@ -13,6 +22,7 @@ const firebaseConfig = {
   measurementId: "G-84JGCFGPXE"
 };
 
+<<<<<<< HEAD
 // Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -69,3 +79,35 @@ async function addData() {
 // addData(); // Descomente esta linha se você quiser adicionar os dados
 
 export { db, addData }; // Exportando o db e a função addData para uso em outros arquivos
+=======
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// Inicializar Firestore
+const db = getFirestore(app);
+
+// Função para adicionar um documento à coleção "test" (para teste)
+export const testAddDocument = async () => {
+  try {
+    const docRef = await addDoc(collection(db, "test"), { test: "Hello Firestore!" });
+    console.log("Documento escrito com ID: ", docRef.id);
+  } catch (e) {
+    console.error("Erro ao adicionar documento: ", e);
+  }
+};
+
+// Função para recuperar todos os documentos da coleção "test"
+export const testGetDocuments = async () => {
+  const querySnapshot = await getDocs(collection(db, "test"));
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+  });
+};
+
+// Chamar as funções para testar a conexão
+testAddDocument().then(() => {
+  // Chamar a função para recuperar os documentos após adicionar
+  testGetDocuments();
+});
+>>>>>>> c107fdf854ac4ea7176a42939b2ca3112aca9919
