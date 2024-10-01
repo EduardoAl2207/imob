@@ -1,17 +1,16 @@
-import {useState, useEffect, useRef} from 'react'
-import {getAuth, onAuthStateChanged} from 'firebase/auth'
-import {getStorage, ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
-import {addDoc, collection, serverTimestamp} from 'firebase/firestore'
-import {db} from '../firebase.config'
-import {useNavigate} from 'react-router-dom'
-import { toast } from 'react-toastify'
-import {v4 as uuidv4} from 'uuid'
-import Spinner from '../components/Spinner'
+import { useState, useEffect, useRef } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase.config';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import Spinner from '../components/Spinner';
 
 function CreateListing() {
-  // eslint-disable-next-line
-  const [geolocationEnabled, setGeolocationEnabled] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: 'rent',
     name: '',
@@ -25,169 +24,155 @@ function CreateListing() {
     discountedPrice: 0,
     images: {},
     latitude: 0,
-    longitude: 0
-  })
+    longitude: 0,
+    userRef: ''
+  });
 
-  const {type, name, bedrooms, bathrooms, parking, furnished, address, offer, regularPrice, discountedPrice, images, latitude, longitude} = formData
+  const { type, name, bedrooms, bathrooms, parking, furnished, address, offer, regularPrice, discountedPrice, images, latitude, longitude } = formData;
 
-  const auth = getAuth()
-  const navigate = useNavigate()
-  const isMounted = useRef(true)
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const isMounted = useRef(true);
 
   useEffect(() => {
-    if(isMounted) {
+    if (isMounted) {
       onAuthStateChanged(auth, (user) => {
-        if(user) {
-          setFormData({...formData, userRef: user.uid})
+        if (user) {
+          setFormData((prevState) => ({ ...prevState, userRef: user.uid }));
         } else {
-          navigate('/sign-in')
+          navigate('/sign-in');
         }
-      })
+      });
     }
 
     return () => {
-      isMounted.current = false
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMounted])
+      isMounted.current = false;
+    };
+  }, [isMounted, auth, navigate]);
 
   const onSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    setLoading(true);
 
-    setLoading(true)
-
-    if(discountedPrice >= regularPrice) {
-      setLoading(false)
-      toast.error('O preço com desconto precisa ser menor que o preço normal')
-      return
+    if (discountedPrice >= regularPrice) {
+      setLoading(false);
+      toast.error('O preço com desconto precisa ser menor que o preço normal');
+      return;
     }
 
-    if(images.length > 6) {
-      setLoading(false)
-      toast.error('Max 6 images')
-      return
+    if (Array.from(images).length > 6) {
+      setLoading(false);
+      toast.error('Máximo de 6 imagens');
+      return;
     }
 
-    let geolocation = {}
-    let location
+    let geolocation = {};
+    let location;
 
-    if(geolocationEnabled) {
+    if (geolocationEnabled) {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`)
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+      );
 
-      const data = await response.json()
+      const data = await response.json();
 
-      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
-      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0
-      location = data.status === 'ZERO_RESULTS' ? address : data.results[0]?.formatted_address;
+      if (data.status === 'ZERO_RESULTS' || !data.results[0]) {
+        setLoading(false);
+        toast.error('Por favor, insira um endereço correto');
+        return;
+      }
 
-      /* if(location === undefined || location.includes('undefined')){
-        setLoading(false)
-        toast.error('Please enter a correct address')
-        return
-      } */
+      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
+      location = data.results[0]?.formatted_address;
     } else {
-      geolocation.lat = latitude
-      geolocation.lng = longitude
-      console.log(geolocation, location)
+      geolocation.lat = latitude;
+      geolocation.lng = longitude;
+      location = address;
     }
 
-    // Store image in firebase
+    // Armazenar imagem no Firebase
     const storeImage = async (image) => {
       return new Promise((resolve, reject) => {
-        const storage = getStorage()
-        const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`
+        const storage = getStorage();
+        const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+        const storageRef = ref(storage, 'images/' + fileName);
 
-        const storageRef = ref(storage, 'images/' + fileName)
-
-        const uploadTask = uploadBytesResumable(storageRef, image)
+        const uploadTask = uploadBytesResumable(storageRef, image);
 
         uploadTask.on(
           'state_changed',
           (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            console.log('Upload is ' + progress + '% done')
-            switch (snapshot.state) {
-              case 'paused':
-                console.log('O upload está pausado')
-                break
-              case 'running':
-                console.log('O upload está em andamento')
-                break
-              default:
-                break
-            }
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
           },
           (error) => {
-            reject(error)
+            reject(error);
           },
           () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              resolve(downloadURL)
-            })
+              resolve(downloadURL);
+            });
           }
-        )
-      })
-    }
+        );
+      });
+    };
 
     const imgUrls = await Promise.all(
       [...images].map((image) => storeImage(image))
     ).catch(() => {
-      setLoading(false)
-      toast.error('Imagens não carregadas')
-      return
-    })
+      setLoading(false);
+      toast.error('Imagens não carregadas');
+      return;
+    });
 
     const formDataCopy = {
       ...formData,
       imgUrls,
       geolocation,
       timestamp: serverTimestamp()
+    };
+
+    formDataCopy.location = address;
+    delete formDataCopy.images;
+    delete formDataCopy.address;
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+
+    const docRef = await addDoc(collection(db, 'listings'), formDataCopy);
+    setLoading(false);
+    toast.success('Listagem salva');
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+  };
+
+  const onMutate = (e) => {
+    let boolean = null;
+
+    if (e.target.value === 'true') {
+      boolean = true;
+    }
+    if (e.target.value === 'false') {
+      boolean = false;
     }
 
-    formDataCopy.location = address
-    delete formDataCopy.images
-    delete formDataCopy.address
-    !formDataCopy.offer && delete formDataCopy.discountedPrice
-
-    const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
-    setLoading(false)
-    toast.success('Listagem salva')
-    navigate(`/category/${formDataCopy.type}/${docRef.id}`)
-  }
-
-  const onMutate = e => {
-    let boolean = null
-
-    if(e.target.value === 'true') {
-      boolean = true
-    }
-    if(e.target.value === 'false') {
-      boolean = false
-    }
-
-    // Files
-    if(e.target.files) {
+    // Arquivos
+    if (e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
         images: e.target.files
-      }))
+      }));
     }
 
-    // Text/Booleans/Numbers
-    if(!e.target.files) {
+    // Texto/Booleans/Números
+    if (!e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
         [e.target.id]: boolean ?? e.target.value
-      }))
+      }));
     }
-  }
+  };
 
-  if(loading) {
-    return <Spinner />
+  if (loading) {
+    return <Spinner />;
   }
 
   return (
@@ -198,7 +183,7 @@ function CreateListing() {
 
       <main>
         <form onSubmit={onSubmit}>
-          <label className='formLabel'>Vender / Rent</label>
+          <label className='formLabel'>Vender / Alugar</label>
           <div className='formButtons'>
             <button
               type='button'
@@ -269,15 +254,11 @@ function CreateListing() {
               id='parking'
               value={true}
               onClick={onMutate}
-              min='1'
-              max='50'
             >
               Sim
             </button>
             <button
-              className={
-                !parking && parking !== null ? 'formButtonActive' : 'formButton'
-              }
+              className={!parking && parking !== null ? 'formButtonActive' : 'formButton'}
               type='button'
               id='parking'
               value={false}
@@ -299,11 +280,7 @@ function CreateListing() {
               Sim
             </button>
             <button
-              className={
-                !furnished && furnished !== null
-                  ? 'formButtonActive'
-                  : 'formButton'
-              }
+              className={!furnished && furnished !== null ? 'formButtonActive' : 'formButton'}
               type='button'
               id='furnished'
               value={false}
@@ -350,7 +327,7 @@ function CreateListing() {
             </div>
           )}
 
-          <label className='formLabel'>Oferecer</label>
+          <label className='formLabel'>Oferta</label>
           <div className='formButtons'>
             <button
               className={offer ? 'formButtonActive' : 'formButton'}
@@ -362,9 +339,7 @@ function CreateListing() {
               Sim
             </button>
             <button
-              className={
-                !offer && offer !== null ? 'formButtonActive' : 'formButton'
-              }
+              className={!offer && offer !== null ? 'formButtonActive' : 'formButton'}
               type='button'
               id='offer'
               value={false}
@@ -374,20 +349,17 @@ function CreateListing() {
             </button>
           </div>
 
-          <label className='formLabel'>Preço normal</label>
-          <div className='formPriceDiv'>
-            <input
-              className='formInputSmall'
-              type='number'
-              id='regularPrice'
-              value={regularPrice}
-              onChange={onMutate}
-              min='50'
-              max='750000000'
-              required
-            />
-            {type === 'rent' && <p className='formPriceText'>R$ / Mês</p>}
-          </div>
+          <label className='formLabel'>Preço regular</label>
+          <input
+            className='formInputSmall'
+            type='number'
+            id='regularPrice'
+            value={regularPrice}
+            onChange={onMutate}
+            min='50'
+            max='750000000'
+            required
+          />
 
           {offer && (
             <>
@@ -406,26 +378,23 @@ function CreateListing() {
           )}
 
           <label className='formLabel'>Imagens</label>
-          <p className='imagesInfo'>
-          A primeira imagem será a capa (max 6).
-          </p>
           <input
             className='formInputFile'
             type='file'
             id='images'
             onChange={onMutate}
-            max='6'
-            accept='.jpg,.png,.jpeg'
             multiple
+            accept='.jpg,.jpeg,.png'
             required
           />
+
           <button type='submit' className='primaryButton createListingButton'>
-          Criar Listagem
+            Criar listagem
           </button>
         </form>
       </main>
     </div>
-  )
+  );
 }
 
-export default CreateListing
+export default CreateListing;
