@@ -1,6 +1,3 @@
-Claro! Vamos aprimorar a formatação e a estrutura para torná-lo mais atraente visualmente e ainda mais profissional.
-
----
 
 # 🌟 Imobill 🌟
 
@@ -18,7 +15,7 @@ Claro! Vamos aprimorar a formatação e a estrutura para torná-lo mais atraente
 
 ## 📜 Descrição
 
-**Imobill** é uma plataforma web inovadora projetada para revolucionar a experiência no mercado imobiliário. O aplicativo foi desenvolvido com o objetivo de atender às diversas necessidades dos usuários, fornecendo informações detalhadas e acessíveis sobre imóveis em várias categorias. 
+**Imobill** é um aplicativo mobile inovadora projetada para revolucionar a experiência no mercado imobiliário. O aplicativo foi desenvolvido com o objetivo de atender às diversas necessidades dos usuários, fornecendo informações detalhadas e acessíveis sobre imóveis em várias categorias. 
 
 ![Preview do Imobill](https://github.com/user-attachments/assets/7838ff37-0845-43e0-86c7-9750caec82b7)
 
