@@ -23,11 +23,10 @@
 
 ## ⚙️ Funcionalidades
 
-- **🔍 Busca Avançada**: Filtre imóveis por localização, tipo, preço, número de quartos e mais.
+- **🔍 Busca Avançada**: Busca por diversas opções sem travar e pode oferecer seus imoveis.
 - **🏠 Listagem de Imóveis**: Navegue por uma lista abrangente com imagens e descrições detalhadas.
-- **❤️ Favoritos**: Salve seus imóveis preferidos para fácil acesso posterior.
 - **👤 Cadastro de Usuários**: Permita que os usuários se registrem e gerenciem seus perfis.
-- **💬 Comentários e Avaliações**: Interaja com outros usuários e compartilhe feedback sobre imóveis.
+- **💬 Contate**: Contate diversas pessoas que estão anunciando seus imoveis sem dificuldades.
 
 ---
 
@@ -35,16 +34,13 @@
 
 - **Front-end**:
   - [React](https://reactjs.org/)
-  - [Redux](https://redux.js.org/)
-  - [CSS Modules](https://github.com/css-modules/css-modules)
+  - [Stylesheet](https://reactnative.dev/docs/stylesheet)
+  - [Jsx](https://pt-br.legacy.reactjs.org/docs/introducing-jsx.html)
 - **Back-end**:
   - [Node.js](https://nodejs.org/)
-  - [Express](https://expressjs.com/)
-  - [MongoDB](https://www.mongodb.com/)
+  - [Firebase](https://firebase.google.com/?hl=pt-br)
 - **Autenticação**:
-  - [JSON Web Tokens (JWT)](https://jwt.io/)
-- **Deployment**:
-  - [Vercel](https://vercel.com/) / [Heroku](https://www.heroku.com/)
+  - [Fire authentication](https://firebase.google.com/docs/auth?hl=pt-br)
 
 ---
 
