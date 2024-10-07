@@ -122,11 +122,7 @@ Este projeto é destinado a fins educacionais e não possui licença para comerc
 ---
 
 ## 🧑‍💻 Autores e Contato
-
+                  
 **Eduardo Alves de Souza**  
 ✉️ E-mail: [eduardo.al.souza07@gmail.com](mailto:eduardo.al.souza07@gmail.com)  
 🔗 LinkedIn: [Eduardo Alves](https://www.linkedin.com/in/eduardo-alves)
-
----
-
-Sinta-se à vontade para ajustar ou adicionar qualquer informação adicional que você achar necessária!
