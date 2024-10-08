@@ -125,4 +125,4 @@ Este projeto é destinado a fins educacionais e não possui licença para comerc
                   
 **Eduardo Alves de Souza**  
 ✉️ E-mail: [eduardo.al.souza07@gmail.com](mailto:eduardo.al.souza07@gmail.com)  
-🔗 LinkedIn: [Eduardo Alves](https://www.linkedin.com/in/eduardo-alves)
+🔗 LinkedIn: [Eduardo Alves](https://www.linkedin.com/in/eduardo-alves-94326127b/)
